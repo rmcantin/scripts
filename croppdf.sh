@@ -21,8 +21,8 @@ wget $1 -O temp_before_crop.pdf
 pdfcrop temp_before_crop.pdf output.pdf
 rm temp_before_crop.pdf
 
-if [ "$os"="darwin" ]; then
+if [ "$os" = "darwin" ]; then
     open output.pdf
-elif [ "$os"="linux-gnu" ]; then
+elif [ "$os" = "linux-gnu" ]; then
     acroread output.pdf
 fi
