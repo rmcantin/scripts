@@ -13,16 +13,25 @@
 os=${OSTYPE//[0-9.]/}
 
 if [ $# -ne 1 ]; then
-    echo "USAGE: You need to specify a URL path"
+    echo "USAGE: You need to specify a URL or local path"
     exit
 fi
 
-wget $1 -O temp_before_crop.pdf
+path = "$1"
+
+regex='(https?|ftp)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
+if [[ $path =~ $regex ]] 
+then 
+    wget $path -O temp_before_crop.pdf
+else
+    mv $path ./temp_before_crop.pdf
+fi
+
 pdfcrop temp_before_crop.pdf output.pdf
 rm temp_before_crop.pdf
 
 if [ "$os" = "darwin" ]; then
     open output.pdf
 elif [ "$os" = "linux-gnu" ]; then
-    acroread output.pdf
+    xdg-open output.pdf
 fi
