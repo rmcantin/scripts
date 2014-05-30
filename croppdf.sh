@@ -17,13 +17,15 @@ if [ $# -ne 1 ]; then
     exit
 fi
 
-path = "$1"
+path="$1"
 
 regex='(https?|ftp)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
 if [[ $path =~ $regex ]] 
 then 
+    echo "Downloading file..."
     wget $path -O temp_before_crop.pdf
 else
+    echo "Using local file"
     mv $path ./temp_before_crop.pdf
 fi
 
